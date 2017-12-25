@@ -12,7 +12,7 @@ Package.onUse(function(api) {
   api.use('coffeescript@1.2.3');
   api.use('mquandalle:jade@0.4.9');
   api.use('mquandalle:jade-compiler@0.4.5');
-  api.use('templating');
+  api.use('templating@1.3.2');
   api.addFiles('clusterize.css', 'client');
   api.mainModule('clusterize.coffee', 'client');
 });
