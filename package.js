@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.6.0.1');
-  api.use('ecmascript');
+  api.use('ecmascript@0.8.3');
   api.use('coffeescript@1.2.3');
   api.use('mquandalle:jade@0.4.9');
   api.use('mquandalle:jade-compiler@0.4.5');
