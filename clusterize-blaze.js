@@ -222,6 +222,7 @@
         // create and render blaze element with given template
         // returns the element with blaze template
         renderBlazeElement: function(template, data, otherArgs) {
+	    otherArgs = _.clone(otherArgs);
             var div = document.createElement('div');
             div.className += 'clusterize-element';
             Blaze.renderWithData(template, Object.assign(otherArgs, {[otherArgs.dataName]: data}), div)
