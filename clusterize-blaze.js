@@ -326,7 +326,7 @@
             } else {
                 content_elem.innerHTML = ""
                 _.flatten(data).forEach(function(x){
-                    content_elem.append(x)
+                    content_elem.appendChild(x)
                 });
             }
         },
