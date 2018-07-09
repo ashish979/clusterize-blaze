@@ -1,6 +1,6 @@
 Package.describe({
   name: 'ashish979:clusterize-blaze',
-  version: '0.0.5',
+  version: '0.0.6',
   summary: 'modified clusterize.js to use with blaze',
   git: 'https://github.com/ashish979/clusterize-blaze.git',
   documentation: 'README.md'
