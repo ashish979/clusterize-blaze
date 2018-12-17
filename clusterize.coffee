@@ -28,3 +28,6 @@ Template.clusterize.onRendered ->
         blocks_in_cluster: blocksInCluster,
         no_data_text: ''
 
+Template.clusterize.onDestroyed ->
+  @clusterize.clear([])
+  @clusterize.destroy()

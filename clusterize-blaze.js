@@ -91,24 +91,24 @@
                     self.insertToDOM(template, rows, cache, otherArgs);
                 if (self.options.callbacks.scrollingProgress)
                     self.options.callbacks.scrollingProgress(self.getScrollProgress());
-            },
-            resize_debounce = 0,
-            resizeEv = function() {
-                clearTimeout(resize_debounce);
-                resize_debounce = setTimeout(self.refresh, 100);
             }
+            //resize_debounce = 0,
+            //resizeEv = function() {
+                //clearTimeout(resize_debounce);
+                //resize_debounce = setTimeout(self.refresh, 100);
+            //}
         on('scroll', self.scroll_elem, scrollEv);
-        on('resize', window, resizeEv);
+        //on('resize', window, resizeEv);
 
         // public methods
         self.destroy = function(clean) {
             off('scroll', self.scroll_elem, scrollEv);
-            off('resize', window, resizeEv);
+            //off('resize', window, resizeEv);
             self.html((clean ? self.generateEmptyRow() : rows).join(''));
         }
-        self.refresh = function(force) {
-            if(self.getRowsHeight(rows) || force) self.update(rows);
-        }
+        //self.refresh = function(force) {
+            //if(self.getRowsHeight(rows) || force) self.update(rows);
+        //}
         self.update = function(new_rows) {
             rows = isArray(new_rows)
                 ? new_rows
