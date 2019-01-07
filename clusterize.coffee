@@ -4,8 +4,8 @@ Clusterize = require './clusterize-blaze.js'
 
 Template.clusterize.onRendered ->
   @autorun =>
-    data = Template.currentData();
-    return if (!data)
+    data = Template.currentData()
+    return unless (data.data?.length > 0)
 
     template = Template[data.template]
     list = data.data
@@ -29,5 +29,4 @@ Template.clusterize.onRendered ->
         no_data_text: ''
 
 Template.clusterize.onDestroyed ->
-  @clusterize.clear([])
-  @clusterize.destroy()
+  @clusterize.destroy(true) if @clusterize
