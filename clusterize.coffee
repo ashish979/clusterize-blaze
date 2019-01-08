@@ -5,7 +5,7 @@ Clusterize = require './clusterize-blaze.js'
 Template.clusterize.onRendered ->
   @autorun =>
     data = Template.currentData()
-    return unless (data.data?.length > 0)
+    return unless (@clusterize || data.data?.length > 0)
 
     template = Template[data.template]
     list = data.data
