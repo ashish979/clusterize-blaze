@@ -35,6 +35,7 @@
 
     // public parameter
     self.options = {};
+    self.htmlCache = {};
     var options = ['rows_in_block', 'blocks_in_cluster', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks', 'initialScrollPosition'];
     for(var i = 0, option; option = options[i]; i++) {
       self.options[option] = typeof data[option] != 'undefined' && data[option] != null
@@ -101,6 +102,7 @@
     // public methods
     self.destroy = function(clean) {
       off('scroll', self.scroll_elem, scrollEv);
+      self.htmlCache = {}
       //off('resize', window, resizeEv);
       //self.html((clean ? self.generateEmptyRow() : rows).join(''));
     }
@@ -261,7 +263,9 @@
       }
       for (var i = items_start; i < items_end; i++) {
         if(rows[i]){
-          this_cluster_rows.push(this.renderBlazeElement(template, rows[i], otherArgs));
+          if (!this.htmlCache[rows[i]._id])
+            this.htmlCache[rows[i]._id] = this.renderBlazeElement(template, rows[i], otherArgs)
+          this_cluster_rows.push(this.htmlCache[rows[i]._id]);
         }
       }
       return {
@@ -280,6 +284,7 @@
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(template, rows, cache, otherArgs) {
+      startingTime = moment()
       // explore row's height
       if( ! this.options.cluster_height) {
         this.exploreEnvironment(template, rows, cache, otherArgs);
@@ -308,6 +313,7 @@
       } else if(only_bottom_offset_changed) {
         this.content_elem.lastChild.style.height = data.bottom_offset + 'px';
       }
+      timeTaken = moment.utc((moment() - startingTime)).format("HH:mm:ss")
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
     html: function(data) {

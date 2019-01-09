@@ -1,14 +1,27 @@
-{ Template } = require 'meteor/templating'
-require './clusterize.tpl.jade'
-Clusterize = require './clusterize-blaze.js'
+import { Mongo } from 'meteor/mongo'
+import { Template } from 'meteor/templating'
+import Clusterize from './clusterize-blaze.js'
+
+import './clusterize.tpl.jade'
 
 Template.clusterize.onRendered ->
+  data = Template.currentData()
+  if data.data instanceof Mongo.Collection.Cursor
+    data.data.observe(
+      changed: (document) =>
+        if @clusterize?.htmlCache
+          delete @clusterize.htmlCache[document._id]
+    )
   @autorun =>
     data = Template.currentData()
-    return unless (@clusterize || data.data?.length > 0)
+    if data.data instanceof Mongo.Collection.Cursor
+      list = data.data.fetch()
+    else
+      list = data.data
+
+    return unless (@clusterize || list?.length > 0)
 
     template = Template[data.template]
-    list = data.data
     rowsInBlock = data.rowsInBlock
     blocksInCluster = data.blocksInCluster
 
