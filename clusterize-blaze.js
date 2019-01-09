@@ -35,6 +35,7 @@
 
     // public parameter
     self.options = {};
+    self.cacheTemplate = data.cacheTemplate
     self.htmlCache = {};
     var options = ['rows_in_block', 'blocks_in_cluster', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks', 'initialScrollPosition'];
     for(var i = 0, option; option = options[i]; i++) {
@@ -219,16 +220,25 @@
       empty_row.appendChild(td || no_data_content);
       return [empty_row];
     },
+
+    generateBlazeDiv: function(template, data, otherArgs) {
+      otherArgs = _.clone(otherArgs);
+      var div = document.createElement('div');
+      div.className += 'clusterize-element';
+      Blaze.renderWithData(template, Object.assign(otherArgs, {[otherArgs.dataName]: data}), div);
+      return div;
+    },
+
     // create and render blaze element with given template
     // returns the element with blaze template
     renderBlazeElement: function(template, data, otherArgs) {
-      if (!this.htmlCache[data._id])
-        otherArgs = _.clone(otherArgs);
-        var div = document.createElement('div');
-        div.className += 'clusterize-element';
-        Blaze.renderWithData(template, Object.assign(otherArgs, {[otherArgs.dataName]: data}), div);
-        this.htmlCache[data._id] = div;
-      return this.htmlCache[data._id]
+      if (this.cacheTemplate){
+        return this.generateBlazeDiv(template, data, otherArgs)
+      }else{
+        if (!this.htmlCache[data._id])
+          this.htmlCache[data._id] = this.generateBlazeDiv(template, data, otherArgs)
+        return this.htmlCache[data._id]
+      }
     },
     // generate cluster for current scroll position
     generate: function (rows, cluster_num, template, otherArgs) {

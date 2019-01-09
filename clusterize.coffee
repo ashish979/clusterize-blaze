@@ -18,8 +18,10 @@ Template.clusterize.onRendered ->
     data = Template.currentData()
     if data.data instanceof Mongo.Collection.Cursor
       list = data.data.fetch()
+      cacheTemplate = true
     else
       list = data.data
+      cacheTemplate = false
 
     return unless (@clusterize || list?.length > 0)
 
@@ -43,6 +45,7 @@ Template.clusterize.onRendered ->
         blocks_in_cluster: blocksInCluster,
         no_data_text: ''
         initialScrollPosition: @data.initialScrollPosition || 0
+        cacheTemplate: cacheTemplate
 
 Template.clusterize.onDestroyed ->
   @clusterize.destroy(true) if @clusterize
