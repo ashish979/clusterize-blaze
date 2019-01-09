@@ -35,7 +35,7 @@
 
     // public parameter
     self.options = {};
-    var options = ['rows_in_block', 'blocks_in_cluster', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks'];
+    var options = ['rows_in_block', 'blocks_in_cluster', 'show_no_data_row', 'no_data_class', 'no_data_text', 'keep_parity', 'tag', 'callbacks', 'initialScrollPosition'];
     for(var i = 0, option; option = options[i]; i++) {
       self.options[option] = typeof data[option] != 'undefined' && data[option] != null
         ? data[option]
@@ -68,7 +68,7 @@
     self.insertToDOM(template, rows, cache, otherArgs);
 
     // restore the scroll position
-    self.scroll_elem.scrollTop = scroll_top;
+    self.scroll_elem.scrollTop = self.options.initialScrollPosition;
 
     // adding scroll handler
     var last_cluster = false,

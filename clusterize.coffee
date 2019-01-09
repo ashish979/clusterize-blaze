@@ -27,6 +27,7 @@ Template.clusterize.onRendered ->
         rows_in_block: rowsInBlock,
         blocks_in_cluster: blocksInCluster,
         no_data_text: ''
+        initialScrollPosition: @data.initialScrollPosition || 0
 
 Template.clusterize.onDestroyed ->
   @clusterize.destroy(true) if @clusterize
