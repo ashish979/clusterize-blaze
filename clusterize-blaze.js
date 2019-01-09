@@ -222,11 +222,13 @@
     // create and render blaze element with given template
     // returns the element with blaze template
     renderBlazeElement: function(template, data, otherArgs) {
-      otherArgs = _.clone(otherArgs);
-      var div = document.createElement('div');
-      div.className += 'clusterize-element';
-      Blaze.renderWithData(template, Object.assign(otherArgs, {[otherArgs.dataName]: data}), div)
-      return div
+      if (!this.htmlCache[data._id])
+        otherArgs = _.clone(otherArgs);
+        var div = document.createElement('div');
+        div.className += 'clusterize-element';
+        Blaze.renderWithData(template, Object.assign(otherArgs, {[otherArgs.dataName]: data}), div);
+        this.htmlCache[data._id] = div;
+      return this.htmlCache[data._id]
     },
     // generate cluster for current scroll position
     generate: function (rows, cluster_num, template, otherArgs) {
@@ -263,9 +265,7 @@
       }
       for (var i = items_start; i < items_end; i++) {
         if(rows[i]){
-          if (!this.htmlCache[rows[i]._id])
-            this.htmlCache[rows[i]._id] = this.renderBlazeElement(template, rows[i], otherArgs)
-          this_cluster_rows.push(this.htmlCache[rows[i]._id]);
+          this_cluster_rows.push(this.renderBlazeElement(template, rows[i], otherArgs));
         }
       }
       return {
