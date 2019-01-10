@@ -114,14 +114,16 @@
       rows = isArray(new_rows)
         ? new_rows
         : [];
-      var scroll_top = self.scroll_elem.scrollTop;
+      var scroll_top = self.options.initialScrollPosition;
+
+      self.insertToDOM(template, rows, cache, otherArgs);
       // fixes #39
       if(rows.length * self.options.item_height < scroll_top) {
         self.scroll_elem.scrollTop = 0;
         last_cluster = 0;
+      }else{
+        self.scroll_elem.scrollTop = self.options.initialScrollPosition;
       }
-      self.insertToDOM(template, rows, cache, otherArgs);
-      self.scroll_elem.scrollTop = scroll_top;
     }
     self.clear = function() {
       self.update([]);
