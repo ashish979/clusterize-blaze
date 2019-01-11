@@ -4,16 +4,7 @@ import Clusterize from './clusterize-blaze.js'
 
 import './clusterize.tpl.jade'
 
-#if a cursor is passed to clusterize it will cache the templates for each data.
-#else there will be no caching
 Template.clusterize.onRendered ->
-  data = Template.currentData()
-  if data.data instanceof Mongo.Collection.Cursor
-    data.data.observe(
-      changed: (document) =>
-        if @clusterize?.htmlCache
-          delete @clusterize.htmlCache[document._id]
-    )
   @autorun =>
     data = Template.currentData()
     if data.data instanceof Mongo.Collection.Cursor
