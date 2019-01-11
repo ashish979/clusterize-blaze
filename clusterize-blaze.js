@@ -235,11 +235,11 @@
     // returns the element with blaze template
     renderBlazeElement: function(template, data, otherArgs) {
       if (this.cacheTemplate){
-        return this.generateBlazeDiv(template, data, otherArgs)
-      }else{
         if (!this.htmlCache[data._id])
           this.htmlCache[data._id] = this.generateBlazeDiv(template, data, otherArgs)
         return this.htmlCache[data._id]
+      }else{
+        return this.generateBlazeDiv(template, data, otherArgs)
       }
     },
     // generate cluster for current scroll position
@@ -296,7 +296,6 @@
     },
     // if necessary verify data changed and insert to DOM
     insertToDOM: function(template, rows, cache, otherArgs) {
-      startingTime = moment()
       // explore row's height
       if( ! this.options.cluster_height) {
         this.exploreEnvironment(template, rows, cache, otherArgs);
@@ -325,7 +324,6 @@
       } else if(only_bottom_offset_changed) {
         this.content_elem.lastChild.style.height = data.bottom_offset + 'px';
       }
-      timeTaken = moment.utc((moment() - startingTime)).format("HH:mm:ss")
     },
     // unfortunately ie <= 9 does not allow to use innerHTML for table elements, so make a workaround
     html: function(data) {
